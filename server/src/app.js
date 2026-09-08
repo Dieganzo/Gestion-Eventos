@@ -1,4 +1,3 @@
-import cors from 'cors';
 import express from 'express';
 
 import eventoRoutes from './routes/eventoRoutes.js';
@@ -6,9 +5,6 @@ import staffRoutes from './routes/staffRoutes.js';
 
 const app = express();
 
-const corsOrigin = process.env.CORS_ORIGIN || 'http://localhost:5173';
-
-app.use(cors({ origin: corsOrigin }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

@@ -7,8 +7,8 @@ export const listarEventos = async (req, res) => {
     const resultado = await pool.query(
       'SELECT * FROM evento ORDER BY creado_en DESC'
     );
-
     res.status(200).json(resultado.rows);
+
   } catch (error) {
     console.error('Error al obtener eventos:', error);
 
@@ -20,7 +20,7 @@ export const listarEventos = async (req, res) => {
 
 
 // GET /api/eventos/:id
-// Obtiene un solo evento por su ID
+// Obtiene un evento por ID
 export const obtenerEventoPorId = async (req, res) => {
   const { id } = req.params;
 
