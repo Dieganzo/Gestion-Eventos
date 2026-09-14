@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 
 import staffRoutes from './routes/staffRoutes.js';
 import eventoRoutes from './routes/eventoRoutes.js';
+import asistenteRoutes from './routes/asistenteRoutes.js';
 
 
 
@@ -24,6 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 // Rutas de los CRUD.
 app.use('/api/staff', staffRoutes);
 app.use('/api/eventos', eventoRoutes);
+app.use('/api/eventos/:eventoId/asistentes', asistenteRoutes);
 
 // Ruta para comprobar si el backend está funcionando.
 app.get('/api/health', (req, res) => {

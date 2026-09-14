@@ -2,6 +2,7 @@ import express from 'express';
 
 import eventoRoutes from './routes/eventoRoutes.js';
 import staffRoutes from './routes/staffRoutes.js';
+import asistenteRoutes from './routes/asistenteRoutes.js';
 
 const app = express();
 
@@ -10,6 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/eventos', eventoRoutes);
 app.use('/api/staff', staffRoutes);
+app.use('/api/eventos/:eventoId/asistentes', asistenteRoutes);
 
 app.get('/api/health', (_request, response) => {
   response.json({ status: 'ok', message: 'Servidor funcionando correctamente' });
