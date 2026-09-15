@@ -6,9 +6,12 @@ import {
   crearEvento,
   actualizarEvento,
   eliminarEvento
-} from '../controllers/eventocontroller.js';
+} from '../controllers/eventoController.js';
+import { autorizarRoles, verificarToken } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
+
+router.use(verificarToken, autorizarRoles('admin'));
 
 // crud eventos
 router.get('/', listarEventos);

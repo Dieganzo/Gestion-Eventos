@@ -5,9 +5,12 @@ import {
   crearStaff,
   actualizarStaff,
   eliminarStaff
-} from '../controllers/staffcontroller.js';
+} from '../controllers/staffController.js';
+import { autorizarRoles, verificarToken } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
+
+router.use(verificarToken, autorizarRoles('admin'));
 
 //crud staff
 router.get('/', listarStaff);

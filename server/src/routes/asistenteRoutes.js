@@ -7,10 +7,13 @@ import {
   actualizarAsistencia,
   eliminarAsistente,
   obtenerEstadisticasAsistencia
-} from '../controllers/asistentecontroller.js';
+} from '../controllers/asistenteController.js';
+import { verificarToken } from '../middlewares/authMiddleware.js';
 
 // Premite acceder a eventoId definido en index.js
 const router = express.Router({ mergeParams: true });
+
+router.use(verificarToken);
 
 // Estadisticas evento
 router.get('/estadisticas', obtenerEstadisticasAsistencia);
