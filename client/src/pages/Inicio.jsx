@@ -5,8 +5,6 @@ import ListaEventos from '../components/ListaEventos.jsx';
 import CrearEventoModal from '../components/CrearEventoModal.jsx';
 import EditarEventoModal from '../components/EditarEventoModal.jsx';
 import EliminarEventoModal from '../components/EliminarEventoModal.jsx';
-import { staffService } from '../services/staffService.js';
-import CrearAsistenteModal from '../components/CrearAsistenteModal.jsx';
 import '../styles/styles.css';
 import '../styles/inicio.css';
 
@@ -26,9 +24,6 @@ function Inicio() {
   const [guardando, setGuardando] = useState(false);
   const [eventoEditando, setEventoEditando] = useState(null);
   const [eventoEliminando, setEventoEliminando] = useState(null);
-  const [staff, setStaff] = useState([]);
-  const [mostrarModalAsistente, setMostrarModalAsistente] = useState(false);
-  const [guardandoAsistente, setGuardandoAsistente] = useState(false);
 
 
 const cargarEventos = async () => {
@@ -158,7 +153,7 @@ return (
           alEliminar={eliminarEvento}
           guardando={guardando}
           />
-          )}
+        )}
       <section className="inicio-contenido">
         <h2>Lista de eventos</h2>
         {cargando && <p>Cargando eventos...</p>}
