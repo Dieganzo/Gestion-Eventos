@@ -8,3 +8,4 @@ uploads/
 *.log
 .postman/
 postman/
+gestion_eventos.sql
