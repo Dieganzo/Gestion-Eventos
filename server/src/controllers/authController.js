@@ -16,34 +16,65 @@ export const registrarUsuario = async (req, res) => {
   }
 
   if (typeof contrasena !== 'string' || contrasena.length < 8) {
-    return res.status(400).json({ error: 'La contraseña debe tener al menos 8 caracteres' });
+    return res.status(400).json({
+      error: 'La contraseña debe tener al menos 8 caracteres'
+    });
   }
 
   const nombreLimpio = nombre.trim();
   const correoLimpio = correo.trim().toLowerCase();
+  const contrasenaHash = await bcrypt.hash(contrasena, 12);
+
+  const cliente = await pool.connect();
 
   try {
-    const usuarioExistente = await pool.query(
+    await cliente.query('BEGIN');
+
+    const usuarioExistente = await cliente.query(
       'SELECT id FROM usuarios WHERE LOWER(correo) = LOWER($1)',
       [correoLimpio]
     );
 
     if (usuarioExistente.rows.length > 0) {
-      return res.status(409).json({ error: 'Ya existe un usuario con ese correo' });
+      await cliente.query('ROLLBACK');
+
+      return res.status(409).json({
+        error: 'Ya existe un usuario con ese correo'
+      });
     }
 
-    const contrasenaHash = await bcrypt.hash(contrasena, 12);
-    const resultado = await pool.query(
+    const resultadoUsuario = await cliente.query(
       `INSERT INTO usuarios (nombre, correo, contrasena_hash, rol)
        VALUES ($1, $2, $3, 'staff')
        RETURNING id, nombre, correo, rol, creado_en`,
       [nombreLimpio, correoLimpio, contrasenaHash]
     );
 
-    return res.status(201).json(resultado.rows[0]);
+    const usuario = resultadoUsuario.rows[0];
+
+    const resultadoStaff = await cliente.query(
+      `INSERT INTO staff (nombre, usuario_id)
+       VALUES ($1, $2)
+       RETURNING id, nombre, usuario_id`,
+      [nombreLimpio, usuario.id]
+    );
+
+    await cliente.query('COMMIT');
+
+    return res.status(201).json({
+      ...usuario,
+      staff: resultadoStaff.rows[0]
+    });
   } catch (error) {
+    await cliente.query('ROLLBACK');
+
     console.error('Error al registrar usuario:', error);
-    return res.status(500).json({ error: 'Error al registrar el usuario' });
+
+    return res.status(500).json({
+      error: 'Error al registrar el usuario'
+    });
+  } finally {
+    cliente.release();
   }
 };
 
