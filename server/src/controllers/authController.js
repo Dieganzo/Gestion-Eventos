@@ -1,4 +1,7 @@
-import bcrypt from 'bcryptjs';
+import {
+  compararContrasena,
+  encriptarContrasena
+} from '../helpers/bcryptHelper.js';
 import jwt from 'jsonwebtoken';
 import pool from '../database/connection.js';
 
@@ -23,8 +26,7 @@ export const registrarUsuario = async (req, res) => {
 
   const nombreLimpio = nombre.trim();
   const correoLimpio = correo.trim().toLowerCase();
-  const contrasenaHash = await bcrypt.hash(contrasena, 12);
-
+  const contrasenaHash = await encriptarContrasena(contrasena);
   const cliente = await pool.connect();
 
   try {
@@ -100,7 +102,7 @@ export const iniciarSesion = async (req, res) => {
     );
     const usuario = resultado.rows[0];
 
-    if (!usuario || !(await bcrypt.compare(contrasena, usuario.contrasena_hash))) {
+    if (!usuario || !(await compararContrasena(contrasena, usuario.contrasena_hash))) {
       return res.status(401).json({ error: 'Correo o contraseña incorrectos' });
     }
 

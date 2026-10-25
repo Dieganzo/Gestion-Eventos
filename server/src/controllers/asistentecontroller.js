@@ -1,4 +1,8 @@
 import pool from '../database/connection.js';
+import {
+  calcularPorcentajeAsistencia,
+  esEstadoAsistenciaValido
+} from '../helpers/asistenciaHelper.js';
 
 // Verifica que exista un evento
 const existeEvento = async (eventoId) => {
@@ -186,7 +190,7 @@ export const actualizarAsistencia = async (req, res) => {
   const { eventoId, asistenteId } = req.params;
   const { asistio } = req.body;
 
-  if (typeof asistio !== 'boolean') {
+  if (!esEstadoAsistenciaValido(asistio)) {
     return res.status(400).json({
       error: 'El campo asistio debe ser true o false'
     });
@@ -277,10 +281,10 @@ export const obtenerEstadisticasAsistencia = async (req, res) => {
 
     const estadisticas = resultado.rows[0];
 
-    const porcentaje =
-      estadisticas.total > 0
-        ? Math.round((estadisticas.asistieron / estadisticas.total) * 100)
-        : 0;
+    const porcentaje = calcularPorcentajeAsistencia(
+    estadisticas.total,
+    estadisticas.asistieron
+    );
 
     res.status(200).json({
       ...estadisticas,
