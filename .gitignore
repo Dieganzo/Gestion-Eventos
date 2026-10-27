@@ -9,3 +9,4 @@ uploads/
 .postman/
 postman/
 gestion_eventos.sql
+client/cypress.env.json
