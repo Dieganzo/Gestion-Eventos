@@ -36,7 +36,7 @@ describe('Integración - Estadísticas de asistencia', () => {
     eventoId = respuestaEventos.body[0].id;
   });
 
-  it('debe rechazar estadísticas sin token', async () => {
+  it('debe rechazar estadisticas sin token', async () => {
     const respuesta = await api.get(
       `/api/eventos/${eventoId}/asistentes/estadisticas`
     );
@@ -45,7 +45,7 @@ describe('Integración - Estadísticas de asistencia', () => {
     expect(respuesta.body).toHaveProperty('error');
   });
 
-  it('debe devolver las estadísticas de un evento autenticado', async () => {
+  it('debe devolver las estadisticas de un evento autenticado', async () => {
     const respuesta = await api
       .get(`/api/eventos/${eventoId}/asistentes/estadisticas`)
       .set('Authorization', `Bearer ${token}`);

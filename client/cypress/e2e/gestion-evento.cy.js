@@ -2,7 +2,7 @@ describe('E2E - Gestión de eventos', () => {
   it('permite a un administrador crear y eliminar un evento', () => {
     const nombreEvento = `Evento E2E ${Date.now()}`;
     const descripcionEvento = 'Evento creado automáticamente por Cypress';
-
+//recuerda hacer uno por cada cosa osea uno de crear otro de modificar y eliminar 
     cy.visit('/');
 
     cy.env(['ADMIN_CORREO', 'ADMIN_CONTRASENA']).then(

@@ -1,0 +1,53 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, Linux, X64]
+
+    steps:
+      - name: Descargar codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Copiar variables de entorno
+        run: |
+          cp "$HOME/server.env" "$GITHUB_WORKSPACE/server/.env"
+          cp "$HOME/client.env" "$GITHUB_WORKSPACE/client/.env"
+
+      - name: Instalar dependencias backend
+        working-directory: ./server
+        run: npm ci
+
+      - name: Instalar dependencias frontend
+        working-directory: ./client
+        run: npm ci
+
+      - name: Compilar frontend
+        working-directory: ./client
+        run: npm run build
+
+      - name: Verificar PM2
+        run: |
+          if ! command -v pm2 > /dev/null 2>&1; then
+            npm install -g pm2
+          fi
+
+      - name: Iniciar o reiniciar backend
+        run: |
+          if pm2 describe gestion-eventos-api > /dev/null 2>&1; then
+            pm2 restart gestion-eventos-api
+          else
+            cd "$GITHUB_WORKSPACE/server"
+            pm2 start npm --name gestion-eventos-api -- start
+          fi
+
+          pm2 save

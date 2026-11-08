@@ -74,6 +74,22 @@ const crearAsistente = async (nuevoAsistente) => {
   }
 };
 
+const cambiarAsistencia = async (asistenteId, asistio) => {
+  try {
+    setErrorAsistentes('');
+
+    await asistenteService.actualizarAsistencia(
+      id,
+      asistenteId,
+      asistio
+    );
+
+    await cargarAsistentes();
+  } catch (errorActual) {
+    setErrorAsistentes(errorActual.message);
+  }
+};
+
 
   useEffect(() => {
     cargarEvento();
@@ -150,9 +166,45 @@ const crearAsistente = async (nuevoAsistente) => {
                         key={asistente.id}
                       >
                         <div>
-                          <h3>{asistente.nombre}</h3>
-                          <p>RUT: {asistente.rut || 'Sin RUT'}</p>
+                        <h3>{asistente.nombre}</h3>
+                        <p>RUT: {asistente.rut || 'Sin RUT'}</p>
+                      </div>
+
+                      <div className="asistente-acciones">
+                        <span>{asistente.staff_nombre}</span>
+
+                        <div className="asistencia-controles">
+                          <p
+                            className={
+                              asistente.asistio === true
+                                ? 'estado-asistencia estado-presente'
+                                : 'estado-asistencia estado-ausente'
+                            }
+                          >
+                            {asistente.asistio === true ? 'Presente' : 'Ausente'}
+                          </p>
+
+                          <div className="asistencia-botones">
+                            <button
+                              type="button"
+                              className="boton-presente"
+                              onClick={() => cambiarAsistencia(asistente.id, true)}
+                              disabled={asistente.asistio === true}
+                            >
+                              Presente
+                            </button>
+
+                            <button
+                              type="button"
+                              className="boton-ausente"
+                              onClick={() => cambiarAsistencia(asistente.id, false)}
+                              disabled={asistente.asistio === false}
+                            >
+                              Ausente
+                            </button>
+                          </div>
                         </div>
+                      </div>
 
                         <span>{asistente.staff_nombre}</span>
                       </article>

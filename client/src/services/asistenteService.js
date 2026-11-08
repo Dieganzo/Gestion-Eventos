@@ -8,5 +8,11 @@ export const asistenteService = {
     apiFetch(`/eventos/${eventoId}/asistentes`, {
       method: 'POST',
       body: JSON.stringify(nuevoAsistente)
+    }),
+
+  actualizarAsistencia: (eventoId, asistenteId, asistio) =>
+    apiFetch(`/eventos/${eventoId}/asistentes/${asistenteId}/asistencia`, {
+      method: 'PATCH',
+      body: JSON.stringify({ asistio })
     })
 };
