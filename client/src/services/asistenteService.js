@@ -8,5 +8,8 @@ export const asistenteService = {
     apiFetch(`/eventos/${eventoId}/asistentes`, {
       method: 'POST',
       body: JSON.stringify(nuevoAsistente)
-    })
+    }),
+
+  obtenerEstadisticas: (eventoId) =>
+    apiFetch(`/eventos/${eventoId}/asistentes/estadisticas`)
 };

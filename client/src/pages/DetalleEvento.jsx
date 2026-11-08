@@ -16,6 +16,9 @@ function DetalleEvento() {
   const [asistentes, setAsistentes] = useState([]);
   const [cargandoAsistentes, setCargandoAsistentes] = useState(true);
   const [errorAsistentes, setErrorAsistentes] = useState('');
+  const [estadisticas, setEstadisticas] = useState(null);
+  const [cargandoEstadisticas, setCargandoEstadisticas] = useState(true);
+  const [errorEstadisticas, setErrorEstadisticas] = useState('');
   const [staff, setStaff] = useState([]);
   const [mostrarModalAsistente, setMostrarModalAsistente] = useState(false);
   const [guardandoAsistente, setGuardandoAsistente] = useState(false);
@@ -48,6 +51,20 @@ function DetalleEvento() {
     }
   };
 
+  const cargarEstadisticas = async () => {
+  try {
+    setCargandoEstadisticas(true);
+    setErrorEstadisticas('');
+
+    const datos = await asistenteService.obtenerEstadisticas(id);
+    setEstadisticas(datos);
+  } catch (errorActual) {
+    setErrorEstadisticas(errorActual.message);
+  } finally {
+    setCargandoEstadisticas(false);
+  }
+};
+
   const cargarStaff = async () => {
   try {
     const datos = await staffService.listar();
@@ -67,6 +84,7 @@ const crearAsistente = async (nuevoAsistente) => {
     setMostrarModalAsistente(false);
 
     await cargarAsistentes();
+    await cargarEstadisticas();
   } catch (errorActual) {
     setErrorAsistentes(errorActual.message);
   } finally {
@@ -79,6 +97,7 @@ const crearAsistente = async (nuevoAsistente) => {
     cargarEvento();
     cargarAsistentes();
     cargarStaff();
+    cargarEstadisticas();
   }, [id]);
 
   return (
@@ -110,7 +129,42 @@ const crearAsistente = async (nuevoAsistente) => {
               <h2>{evento.nombre}</h2>
               <p>{evento.descripcion || 'Sin descripción'}</p>
             </section>
+            //cambiar esta parte 
+            <section className="detalle-estadisticas">
+              <h2>Estadísticas de asistencia</h2>
+              <p>Resumen de ingreso de los asistentes del evento.</p>
 
+              {cargandoEstadisticas && <p>Cargando estadísticas...</p>}
+
+              {errorEstadisticas && (
+                <p className="mensaje-error">{errorEstadisticas}</p>
+              )}
+
+              {!cargandoEstadisticas && !errorEstadisticas && estadisticas && (
+                <div className="estadisticas-grid">
+                  <article className="tarjeta-estadistica">
+                    <span>Total de asistentes</span>
+                    <strong>{estadisticas.total}</strong>
+                  </article>
+
+                  <article className="tarjeta-estadistica">
+                    <span>Presentes</span>
+                    <strong>{estadisticas.asistieron}</strong>
+                  </article>
+
+                  <article className="tarjeta-estadistica">
+                    <span>Ausentes</span>
+                    <strong>{estadisticas.no_asistieron}</strong>
+                  </article>
+
+                  <article className="tarjeta-estadistica">
+                    <span>Porcentaje de asistencia</span>
+                    <strong>{estadisticas.porcentaje_asistencia}%</strong>
+                  </article>
+                </div>
+              )}
+            </section>
+            //cambiar esta parte estadistica 
             <section className="detalle-asistentes">
               <div className="detalle-seccion-encabezado">
                 <div>
