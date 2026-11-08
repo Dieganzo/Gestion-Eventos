@@ -14,5 +14,8 @@ export const asistenteService = {
     apiFetch(`/eventos/${eventoId}/asistentes/${asistenteId}/asistencia`, {
       method: 'PATCH',
       body: JSON.stringify({ asistio })
-    })
+    }),
+
+  obtenerEstadisticas: (eventoId) =>
+    apiFetch(`/eventos/${eventoId}/asistentes/estadisticas`)
 };

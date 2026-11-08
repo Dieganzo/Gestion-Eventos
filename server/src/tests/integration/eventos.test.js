@@ -1,3 +1,5 @@
+
+
 import 'dotenv/config';
 import { beforeAll, describe, expect, it } from 'vitest';
 import request from 'supertest';
@@ -6,11 +8,7 @@ const api = request('http://localhost:3000');
 
 const correoAdmin = process.env.TEST_ADMIN_CORREO;
 const contrasenaAdmin = process.env.TEST_ADMIN_CONTRASENA;
-<<<<<<< HEAD
 
-=======
-//guardar como funcion beforall y llmarla
->>>>>>> feature/control-asistencia
 describe('Integración - Eventos', () => {
   let token;
 
