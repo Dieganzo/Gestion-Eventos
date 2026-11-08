@@ -1,4 +1,4 @@
-describe('E2E - Inicio de sesión', () => {
+describe('E2E - Inicio de sesion', () => {
   it('permite a un administrador iniciar sesión y ver los eventos', () => {
     cy.visit('/');
 
@@ -10,7 +10,7 @@ describe('E2E - Inicio de sesión', () => {
           log: false
         });
 
-        cy.contains('button', 'Iniciar sesión').click();
+        cy.contains('button', 'Iniciar sesion').click();
 
         cy.url().should('include', '/inicio');
         cy.contains('h1', 'Eventos').should('be.visible');

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
-import './styles/styles.css';
 import Login from './pages/Login.jsx';
 import Registro from './pages/Registro.jsx';
 import Inicio from './pages/Inicio.jsx';
