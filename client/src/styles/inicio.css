@@ -121,21 +121,25 @@
   font-weight: 700;
 }
 
-.boton-ver-evento span {
-  margin-left: 10px;
-  font-size: 24px;
-  vertical-align: -2px;
-}
+
 
 .boton-icono {
   width: 56px !important;
   height: 56px;
   padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: 0;
   border-radius: 14px;
   background: #263044;
   color: #aab4c5;
   font-size: 20px;
+}
+
+.boton-icono:hover {
+  background: #37445e;
+  color: #ffffff;
 }
 
 .boton-icono:disabled {

@@ -147,7 +147,7 @@ function DetalleEvento() {
           <div className="flex items-center gap-3 sm:gap-5">
             <Link
               to="/inicio"
-              className="inline-flex items-center gap-2 text-sm font-medium text-red-400 transition hover:text-red-300"
+              className="inline-flex items-center gap-2 text-sm font-medium !text-[#B11226] transition-all duration-200 hover:-translate-x-1 hover:!text-[#8F0E20]"
             >
               <span className="text-lg">←</span>
               <span>Volver a eventos</span>

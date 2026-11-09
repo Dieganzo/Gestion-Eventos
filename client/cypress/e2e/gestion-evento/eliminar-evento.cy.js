@@ -1,8 +1,8 @@
-describe('E2E - Gestión de eventos', () => {
-  it('permite a un administrador crear y eliminar un evento', () => {
-    const nombreEvento = `Evento E2E ${Date.now()}`;
-    const descripcionEvento = 'Evento creado automáticamente por Cypress';
-//recuerda hacer uno por cada cosa osea uno de crear otro de modificar y eliminar 
+describe('E2E - Eliminar evento', () => {
+  it('permite a un administrador eliminar un evento', () => {
+    const nombreEvento = `TEST E2E Eliminar ${Date.now()}`;
+    const descripcionEvento = 'Evento creado para probar eliminacion';
+
     cy.visit('/');
 
     cy.env(['ADMIN_CORREO', 'ADMIN_CONTRASENA']).then(
@@ -13,7 +13,7 @@ describe('E2E - Gestión de eventos', () => {
           log: false
         });
 
-        cy.contains('button', 'Iniciar sesión').click();
+        cy.contains('button', 'Iniciar sesion').click();
 
         cy.url().should('include', '/inicio');
 
@@ -32,9 +32,10 @@ describe('E2E - Gestión de eventos', () => {
 
         cy.contains('h2', 'Eliminar evento').should('be.visible');
 
-        cy.contains('button', 'Sí, eliminar').click();
+        cy.get('button.modal-eliminar').click();
 
-        cy.contains('.tarjeta-evento', nombreEvento).should('not.exist');
+        cy.contains('.tarjeta-evento', nombreEvento)
+          .should('not.exist');
       }
     );
   });

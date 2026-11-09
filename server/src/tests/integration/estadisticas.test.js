@@ -1,23 +1,15 @@
-import 'dotenv/config';
 import { beforeAll, describe, expect, it } from 'vitest';
-import request from 'supertest';
-
-const api = request('http://localhost:3000');
-
-const correoAdmin = process.env.TEST_ADMIN_CORREO;
-const contrasenaAdmin = process.env.TEST_ADMIN_CONTRASENA;
+import {
+  api,
+  iniciarSesionAdmin
+} from '../helpers/autenticacionTestHelper.js';
 
 describe('Integración - Estadísticas de asistencia', () => {
   let token;
   let eventoId;
 
   beforeAll(async () => {
-    const respuestaLogin = await api
-      .post('/api/auth/login')
-      .send({
-        correo: correoAdmin,
-        contrasena: contrasenaAdmin
-      });
+    const respuestaLogin = await iniciarSesionAdmin();
 
     if (respuestaLogin.statusCode !== 200) {
       throw new Error('No se pudo iniciar sesión para preparar la prueba');

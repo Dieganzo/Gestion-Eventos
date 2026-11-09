@@ -43,7 +43,7 @@ function ListaEventos({eventos, alEditar, alEliminar, esAdmin}) {
              className="boton-ver-evento"
             to={`/eventos/${evento.id}`}
             >
-             Ver evento <span>›</span>
+             Ver evento
             </Link>
 
             {esAdmin && (

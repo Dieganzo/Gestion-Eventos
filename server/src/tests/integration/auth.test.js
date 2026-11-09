@@ -1,11 +1,9 @@
-import 'dotenv/config';
-import { beforeAll, describe, expect, it } from 'vitest';
-import request from 'supertest';
-
-const api = request('http://localhost:3000');
-
-const correoAdmin = process.env.TEST_ADMIN_CORREO;
-const contrasenaAdmin = process.env.TEST_ADMIN_CONTRASENA;
+import { describe, expect, it } from 'vitest';
+import {
+  api,
+  correoAdmin,
+  iniciarSesionAdmin
+} from '../helpers/autenticacionTestHelper.js';
 
 describe('Integración - Autenticación', () => {
   let token;
@@ -20,12 +18,7 @@ describe('Integración - Autenticación', () => {
   });
 
   it('POST /api/auth/login debe iniciar sesión con credenciales válidas', async () => {
-    const respuesta = await api
-      .post('/api/auth/login')
-      .send({
-        correo: correoAdmin,
-        contrasena: contrasenaAdmin
-      });
+    const respuesta = await iniciarSesionAdmin();
 
     expect(respuesta.statusCode).toBe(200);
     expect(respuesta.body).toHaveProperty('token');
